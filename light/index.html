@@ -6,28 +6,55 @@
 
 <style>
 body {
+    margin: 0;
+    background: #f5f5f5;
+    color: #111;
     font-family: sans-serif;
-    margin: 20px;
+}
+
+#apps {
+    padding: 12px;
 }
 
 .app {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+
+    padding: 12px;
+    margin-bottom: 8px;
+
+    background: white;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+
+    transition: background 0.15s ease;
+}
+
+.app:hover {
+    background: #f0f0f0;
 }
 
 .app img {
-    width: 48px;
-    height: 48px;
+    width: 120px;
+    height: auto;
+    flex-shrink: 0;
 }
 
 .name {
     font-size: 16px;
+    font-weight: 500;
+    word-break: break-word;
+}
+
+.loading,
+.error {
+    padding: 16px;
+    color: #666;
 }
 </style>
 </head>
+
 <body>
 
 <div id="apps"></div>
@@ -49,7 +76,7 @@ async function loadApps() {
 
     for (const app of apps) {
         const icon =
-            `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${app.name}/assets/metro/icon.svg`;
+            `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${app.name}/assets/metro/tile.svg`;
 
         const div = document.createElement("div");
         div.className = "app";
