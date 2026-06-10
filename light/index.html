@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>aysOS Store</title>
+
+<style>
+body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+.app {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.app img {
+    width: 48px;
+    height: 48px;
+}
+
+.name {
+    font-size: 16px;
+}
+</style>
+</head>
+<body>
+
+<div id="apps"></div>
+
+<script>
+const REPO_OWNER = "AYSemkiv";
+const REPO_NAME = "aysOS-Apps";
+
+async function loadApps() {
+    const response = await fetch(
+        `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents`
+    );
+
+    const items = await response.json();
+
+    const apps = items.filter(item => item.type === "dir");
+
+    const container = document.getElementById("apps");
+
+    for (const app of apps) {
+        const icon =
+            `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${app.name}/assets/metro/icon.svg`;
+
+        const div = document.createElement("div");
+        div.className = "app";
+
+        div.innerHTML = `
+            <img src="${icon}">
+            <div class="name">${app.name}</div>
+        `;
+
+        container.appendChild(div);
+    }
+}
+
+loadApps();
+</script>
+
+</body>
+</html>
