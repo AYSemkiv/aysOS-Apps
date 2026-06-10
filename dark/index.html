@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>aysOS Store</title>
+<link rel="icon" type="image/svg+xml" href="./store.svg">
 
 <style>
 * {
@@ -86,12 +87,12 @@ async function loadApps() {
 
         // Keep only folders (apps)
         const apps = items
-    .filter(item =>
-        item.type === "dir" &&
-        item.name !== "dark" &&
-        item.name !== "light"
-    )
-    .sort((a, b) => a.name.localeCompare(b.name));
+            .filter(item =>
+                item.type === "dir" &&
+                item.name !== "dark" &&
+                item.name !== "light"
+            )
+            .sort((a, b) => a.name.localeCompare(b.name));
 
         container.innerHTML = "";
 
