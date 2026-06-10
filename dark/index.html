@@ -86,8 +86,12 @@ async function loadApps() {
 
         // Keep only folders (apps)
         const apps = items
-            .filter(item => item.type === "dir")
-            .sort((a, b) => a.name.localeCompare(b.name));
+    .filter(item =>
+        item.type === "dir" &&
+        item.name !== "dark" &&
+        item.name !== "light"
+    )
+    .sort((a, b) => a.name.localeCompare(b.name));
 
         container.innerHTML = "";
 
