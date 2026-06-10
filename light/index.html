@@ -70,7 +70,13 @@ async function loadApps() {
 
     const items = await response.json();
 
-    const apps = items.filter(item => item.type === "dir");
+    const apps = items
+    .filter(item =>
+        item.type === "dir" &&
+        item.name !== "dark" &&
+        item.name !== "light"
+    )
+    .sort((a, b) => a.name.localeCompare(b.name));
 
     const container = document.getElementById("apps");
 
