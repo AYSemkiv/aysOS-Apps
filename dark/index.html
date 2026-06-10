@@ -41,8 +41,8 @@ body {
 }
 
 .app img {
-    width: 120px;
-    height: auto;
+    width: 48px;
+    height: 48px;
     flex-shrink: 0;
 }
 
@@ -93,7 +93,7 @@ async function loadApps() {
 
         for (const app of apps) {
             const iconUrl =
-                `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${app.name}/assets/metro/tile.svg`;
+                `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${app.name}/assets/metro/icon.svg`;
 
             const appElement = document.createElement("div");
             appElement.className = "app";
