@@ -72,6 +72,17 @@ body {
     -webkit-box-orient: vertical;
 }
 
+.developer {
+    font-size: 12px;
+    color: #777;
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
 .loading,
 .error {
     padding: 16px;
@@ -150,6 +161,11 @@ async function loadApps() {
             )
             .sort((a, b) => a.name.localeCompare(b.name));
 
+        // Load developer names for each app
+        for (const app of allApps) {
+            app.developer = await loadDeveloperName(app.name);
+        }
+
         renderApps(allApps);
 
     } catch (error) {
@@ -158,6 +174,23 @@ async function loadApps() {
         container.innerHTML =
             '<div class="error">Failed to load apps.</div>';
     }
+}
+
+async function loadDeveloperName(appName) {
+    try {
+        const response = await fetch(
+            `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${appName}/dev.txt`
+        );
+
+        if (response.ok) {
+            const text = await response.text();
+            return text.trim();
+        }
+    } catch (error) {
+        console.error(`Failed to load dev.txt for ${appName}:`, error);
+    }
+
+    return "Unknown Developer";
 }
 
 function renderApps(apps) {
@@ -180,6 +213,7 @@ function renderApps(apps) {
         appElement.innerHTML = `
             <img src="${iconUrl}" alt="${app.name} icon">
             <div class="name">${app.name}</div>
+            <div class="developer">${app.developer || "Unknown Developer"}</div>
         `;
 
         container.appendChild(appElement);
