@@ -2,20 +2,32 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>aysStore</title>
 <link rel="icon" type="image/svg+xml" href="../store.svg">
 
 <style>
-body {
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
     margin: 0;
+}
+
+body {
     background: #f5f5f5;
     color: #111;
     font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
 #apps {
     padding: 12px;
-    padding-bottom: 80px;
+    flex: 1;
+    overflow-y: auto;
 }
 
 .app {
@@ -56,14 +68,10 @@ body {
 }
 
 #search-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
     padding: 12px;
     background: #f5f5f5;
     border-top: 1px solid #dcdcdc;
-    z-index: 1000;
+    flex-shrink: 0;
 }
 
 #search-input {
