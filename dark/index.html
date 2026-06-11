@@ -16,10 +16,14 @@ body {
     background: #111;
     color: #fff;
     font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 #apps {
     padding: 12px;
+    flex: 1;
 }
 
 .app {
@@ -58,6 +62,34 @@ body {
     padding: 16px;
     color: #aaa;
 }
+
+#search-container {
+    padding: 12px;
+    background: #111;
+    border-top: 1px solid #2a2a2a;
+}
+
+#search-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    background: #1b1b1b;
+    color: #fff;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease;
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: #555;
+}
+
+#search-input::placeholder {
+    color: #666;
+}
 </style>
 </head>
 <body>
@@ -66,10 +98,16 @@ body {
     <div class="loading">Loading apps...</div>
 </div>
 
+<div id="search-container">
+    <input type="text" id="search-input" placeholder="Search apps...">
+</div>
+
 <script>
 const REPO_OWNER = "AYSemkiv";
 const REPO_NAME = "aysOS-Apps";
 const BRANCH = "main";
+
+let allApps = [];
 
 async function loadApps() {
     const container = document.getElementById("apps");
@@ -86,7 +124,7 @@ async function loadApps() {
         const items = await response.json();
 
         // Keep only folders (apps)
-        const apps = items
+        allApps = items
             .filter(item =>
                 item.type === "dir" &&
                 item.name !== "dark" &&
@@ -94,27 +132,7 @@ async function loadApps() {
             )
             .sort((a, b) => a.name.localeCompare(b.name));
 
-        container.innerHTML = "";
-
-        for (const app of apps) {
-            const iconUrl =
-                `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${app.name}/assets/metro/tile.svg`;
-
-            const appElement = document.createElement("div");
-            appElement.className = "app";
-
-            appElement.innerHTML = `
-                <img src="${iconUrl}" alt="${app.name} icon">
-                <div class="name">${app.name}</div>
-            `;
-
-            container.appendChild(appElement);
-        }
-
-        if (apps.length === 0) {
-            container.innerHTML =
-                '<div class="loading">No apps found.</div>';
-        }
+        renderApps(allApps);
 
     } catch (error) {
         console.error(error);
@@ -123,6 +141,48 @@ async function loadApps() {
             '<div class="error">Failed to load apps.</div>';
     }
 }
+
+function renderApps(apps) {
+    const container = document.getElementById("apps");
+    container.innerHTML = "";
+
+    if (apps.length === 0) {
+        container.innerHTML =
+            '<div class="loading">No apps found.</div>';
+        return;
+    }
+
+    for (const app of apps) {
+        const iconUrl =
+            `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${app.name}/assets/metro/tile.svg`;
+
+        const appElement = document.createElement("div");
+        appElement.className = "app";
+
+        appElement.innerHTML = `
+            <img src="${iconUrl}" alt="${app.name} icon">
+            <div class="name">${app.name}</div>
+        `;
+
+        container.appendChild(appElement);
+    }
+}
+
+// Search functionality
+document.getElementById("search-input").addEventListener("input", (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+
+    if (searchTerm === "") {
+        renderApps(allApps);
+        return;
+    }
+
+    const filtered = allApps.filter(app =>
+        app.name.toLowerCase().includes(searchTerm)
+    );
+
+    renderApps(filtered);
+});
 
 loadApps();
 </script>
