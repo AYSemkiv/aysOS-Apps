@@ -11,14 +11,17 @@
     box-sizing: border-box;
 }
 
-body {
+html, body {
+    height: 100%;
     margin: 0;
+}
+
+body {
     background: #111;
     color: #fff;
     font-family: sans-serif;
     display: flex;
     flex-direction: column;
-    height: 100vh;
 }
 
 #apps {
@@ -121,14 +124,10 @@ body {
 }
 
 #search-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
     padding: 12px;
     background: #111;
     border-top: 1px solid #2a2a2a;
-    z-index: 1000;
+    flex-shrink: 0;
 }
 
 #search-input {
