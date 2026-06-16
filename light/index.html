@@ -83,6 +83,46 @@ body {
     -webkit-box-orient: vertical;
 }
 
+.app-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    width: 100%;
+}
+
+.app-button {
+    flex: 1;
+    padding: 6px 8px;
+    font-size: 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    background: white;
+    color: #111;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: sans-serif;
+}
+
+.delete-btn {
+    border-color: #d32f2f;
+    color: #d32f2f;
+}
+
+.delete-btn:hover {
+    background: #ffebee;
+    border-color: #b71c1c;
+}
+
+.add-btn {
+    border-color: #388e3c;
+    color: #388e3c;
+}
+
+.add-btn:hover {
+    background: #e8f5e9;
+    border-color: #1b5e20;
+}
+
 .loading,
 .error {
     padding: 16px;
@@ -193,6 +233,14 @@ async function loadDeveloperName(appName) {
     return "Unknown Developer";
 }
 
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        console.log("Copied to clipboard:", text);
+    }).catch(err => {
+        console.error("Failed to copy to clipboard:", err);
+    });
+}
+
 function renderApps(apps) {
     const container = document.getElementById("apps");
     container.innerHTML = "";
@@ -214,6 +262,10 @@ function renderApps(apps) {
             <img src="${iconUrl}" alt="${app.name} icon">
             <div class="name">${app.name}</div>
             <div class="developer">${app.developer || "Unknown Developer"}</div>
+            <div class="app-buttons">
+                <button class="app-button delete-btn" onclick="copyToClipboard('/d ${app.name}')">Delete</button>
+                <button class="app-button add-btn" onclick="copyToClipboard('/a ${app.name}')">Add</button>
+            </div>
         `;
 
         container.appendChild(appElement);
