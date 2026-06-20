@@ -280,8 +280,8 @@ async function loadApps() {
         allApps = items
             .filter(item =>
                 item.type === "dir" &&
-                item.name !== "dark" &&
-                item.name !== "light"
+                item.name !== "Dark" &&
+                item.name !== "Light"
             )
             .sort((a, b) => a.name.localeCompare(b.name));
 
