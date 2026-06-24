@@ -311,7 +311,7 @@ async function loadApps() {
 async function loadDeveloperName(appName) {
     try {
         const response = await fetch(
-            `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${appName}/dev.txt`
+            `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${appName}/info/dev.txt`
         );
 
         if (response.ok) {
